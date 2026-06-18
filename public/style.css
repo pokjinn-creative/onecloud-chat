@@ -1,0 +1,40 @@
+.chat-message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.message-content {
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+.emoticon-picker {
+    position: relative;
+}
+
+.emoticon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.emoticon:hover {
+    transform: scale(1.2);
+}
+
+.gender-male {
+    color: #0d6efd;
+}
+
+.gender-female {
+    color: #dc3545;
+}

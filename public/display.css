@@ -1,0 +1,60 @@
+.header {
+    font-size: 2rem;
+}
+
+.chat-display {
+    min-height: 80vh;
+}
+
+.display-message {
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.display-message .nickname {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.display-message .timestamp {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.display-message .content {
+    font-size: 1.5rem;
+    margin-top: 5px;
+}
+
+.big-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-content {
+    text-align: center;
+    color: white;
+    animation: pulse 1s infinite;
+}
+
+.popup-content h1 {
+    font-size: 5rem;
+    font-weight: bold;
+    text-shadow: 0 0 20px #fff;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}

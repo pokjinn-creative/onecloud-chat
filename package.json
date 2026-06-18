@@ -1,0 +1,12 @@
+{
+  "name": "onecloud-chat",
+  "version": "1.0.0",
+  "description": "Chat app for One Cloud Coffee & Eatery",
+  "scripts": {
+    "dev": "npx serve public",
+    "start": "npx serve public"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}

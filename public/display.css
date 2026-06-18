@@ -6,8 +6,16 @@
   --secondary-mint: #eff9f6;
 }
 
-body {
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
   background-color: var(--secondary-cream);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -16,6 +24,7 @@ body {
   padding: 25px 20px;
   text-align: center;
   box-shadow: 0 4px 20px rgba(22, 105, 122, 0.3);
+  flex-shrink: 0;
 }
 
 .header h1 {
@@ -25,7 +34,7 @@ body {
 }
 
 .chat-display {
-  min-height: 75vh;
+  flex: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

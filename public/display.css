@@ -70,7 +70,17 @@ body {
 }
 
 .display-message .content {
-  color: white;
+  color: white !important;
+}
+
+.display-message .nickname,
+.display-message .timestamp,
+.display-message .message-footer {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.display-message .nickname .username {
+  font-weight: bold;
 }
 
 .display-message .nickname {

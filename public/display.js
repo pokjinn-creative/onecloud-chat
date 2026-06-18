@@ -9,7 +9,12 @@ function loadMessages() {
     const messagesRef = ref(database, 'messages');
     onChildAdded(messagesRef, (snapshot) => {
         const message = snapshot.val();
-        addMessageToDisplay(message);
+        const messageId = snapshot.key;
+        addMessageToDisplay(message, messageId);
+    });
+    onChildRemoved(messagesRef, (snapshot) => {
+        const messageId = snapshot.key;
+        removeMessageFromDisplay(messageId);
     });
 }
 
@@ -21,9 +26,10 @@ function loadBigMessages() {
     });
 }
 
-function addMessageToDisplay(message) {
+function addMessageToDisplay(message, messageId) {
     const div = document.createElement('div');
     div.className = 'display-message';
+    div.id = `msg-${messageId}`; // Add ID for easy removal
     const date = new Date(message.timestamp);
     const timeStr = date.toLocaleTimeString('id-ID');
     const genderClass = message.gender === 'male' ? 'text-primary' : 'text-danger';
@@ -47,13 +53,21 @@ function addMessageToDisplay(message) {
     }
 }
 
-function showBigPopup(message) {
-    popupMessage.textContent = message;
+function removeMessageFromDisplay(messageId) {
+    const element = document.getElementById(`msg-${messageId}`);
+    if (element) {
+        element.remove();
+    }
+}
+
+function showBigPopup(data) {
+    document.getElementById('popupMessage').textContent = data.message;
+    document.getElementById('popupSender').textContent = `— ${data.sender || 'One Cloud Coffee & Eatery'}`;
     bigPopup.classList.remove('d-none');
     
     setTimeout(() => {
         bigPopup.classList.add('d-none');
-    }, 5000);
+    }, 8000); // Show for 8 seconds
 }
 
 function escapeHtml(text) {

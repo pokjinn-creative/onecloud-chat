@@ -94,11 +94,16 @@ function loadMessages() {
         const messageId = snapshot.key;
         addMessageToDisplay(message, messageId);
     });
+    onChildRemoved(messagesRef, (snapshot) => {
+        const messageId = snapshot.key;
+        removeMessageFromDisplay(messageId);
+    });
 }
 
 function addMessageToDisplay(message, messageId) {
     const div = document.createElement('div');
     div.className = 'chat-message';
+    div.id = `msg-${messageId}`; // Add ID for easy removal
     const date = new Date(message.timestamp);
     const timeStr = date.toLocaleTimeString('id-ID');
     const genderClass = message.gender === 'male' ? 'gender-male' : 'gender-female';
@@ -114,6 +119,13 @@ function addMessageToDisplay(message, messageId) {
     
     chatContainer.appendChild(div);
     chatContainer.scrollTop = chatContainer.scrollHeight;
+}
+
+function removeMessageFromDisplay(messageId) {
+    const element = document.getElementById(`msg-${messageId}`);
+    if (element) {
+        element.remove();
+    }
 }
 
 function escapeHtml(text) {

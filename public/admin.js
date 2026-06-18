@@ -7,6 +7,7 @@ const filteredWordsList = document.getElementById('filteredWordsList');
 const filterWordInput = document.getElementById('filterWordInput');
 const addFilterBtn = document.getElementById('addFilterBtn');
 const bigMessageInput = document.getElementById('bigMessageInput');
+const bigMessageSender = document.getElementById('bigMessageSender');
 const sendBigMessageBtn = document.getElementById('sendBigMessageBtn');
 
 let users = new Map();
@@ -104,12 +105,15 @@ addFilterBtn.addEventListener('click', () => {
 
 sendBigMessageBtn.addEventListener('click', () => {
     const message = bigMessageInput.value.trim();
+    const sender = bigMessageSender.value.trim() || 'One Cloud Coffee & Eatery';
     if (message) {
         push(ref(database, 'bigMessages'), {
             message: message,
+            sender: sender,
             timestamp: Date.now()
         });
         bigMessageInput.value = '';
+        bigMessageSender.value = '';
     }
 });
 

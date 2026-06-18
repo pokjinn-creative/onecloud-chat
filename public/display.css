@@ -1,9 +1,12 @@
 .header {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 .chat-display {
-    min-height: 80vh;
+  min-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .display-message {

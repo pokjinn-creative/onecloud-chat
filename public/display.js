@@ -39,10 +39,11 @@ function addMessageToDisplay(message) {
         <div class="content">${escapeHtml(message.content)}</div>
     `;
     
-    chatDisplay.insertBefore(div, chatDisplay.firstChild);
+    chatDisplay.appendChild(div);
+    chatDisplay.scrollTop = chatDisplay.scrollHeight;
     
     if (chatDisplay.children.length > 20) {
-        chatDisplay.removeChild(chatDisplay.lastChild);
+        chatDisplay.removeChild(chatDisplay.firstChild);
     }
 }
 

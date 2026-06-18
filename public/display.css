@@ -1,111 +1,134 @@
+:root {
+  --primary-dark: #16697a;
+  --primary-light: #489fb5;
+  --secondary-cyan: #82c0cc;
+  --secondary-cream: #f2ebe2;
+  --secondary-mint: #eff9f6;
+}
+
+body {
+  background-color: var(--secondary-cream);
+}
+
 .header {
-  font-size: 2rem;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+  color: white;
+  padding: 25px 20px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(22, 105, 122, 0.3);
+}
+
+.header h1 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  margin: 0;
 }
 
 .chat-display {
-  min-height: 80vh;
+  min-height: 75vh;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  padding: 30px;
+  background-color: var(--secondary-cream);
 }
 
 .display-message {
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+  padding: 20px 25px;
+  margin-bottom: 15px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, var(--secondary-mint), white);
+  border-left: 6px solid var(--primary-light);
+  box-shadow: 0 3px 15px rgba(22, 105, 122, 0.1);
 }
 
 .display-message .nickname {
-    font-weight: bold;
-    font-size: 1.2rem;
+  font-weight: 700;
+  font-size: 1.3rem;
 }
 
 .display-message .timestamp {
-    font-size: 0.9rem;
-    opacity: 0.9;
+  font-size: 0.9rem;
+  color: #666;
 }
 
 .display-message .content {
-    font-size: 1.5rem;
-    margin-top: 5px;
+  font-size: 1.6rem;
+  margin-top: 8px;
+  color: #333;
 }
 
 .big-popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.95);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    padding: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 20px;
 }
 
 .popup-content {
-    width: 100%;
-    max-width: 900px;
-    text-align: center;
+  width: 100%;
+  max-width: 950px;
+  text-align: center;
 }
 
 .popup-frame {
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    padding: 50px 40px;
-    border-radius: 20px;
-    box-shadow: 
-        0 0 0 5px #00ffd5,
-        0 0 0 10px #0099ff,
-        0 0 0 15px #0055ff,
-        0 0 40px rgba(0, 153, 255, 0.6),
-        inset 0 0 60px rgba(0, 255, 213, 0.2);
-    border: 3px solid #00ffd5;
-    animation: glow 1.5s infinite alternate, popupBounce 0.5s ease-out;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+  padding: 60px 50px;
+  border-radius: 25px;
+  box-shadow: 
+      0 0 0 8px var(--secondary-cyan),
+      0 0 0 16px var(--primary-light),
+      0 0 50px rgba(72, 159, 181, 0.6),
+      inset 0 0 80px rgba(255, 255, 255, 0.15);
+  border: 4px solid var(--secondary-cyan);
+  animation: glow 1.5s infinite alternate, popupBounce 0.5s ease-out;
 }
 
 .popup-frame h1 {
-    font-size: 4rem;
-    font-weight: bold;
-    text-shadow: 
-        0 0 10px #fff,
-        0 0 20px #00ffd5,
-        0 0 30px #00ffd5;
-    color: white;
-    margin-bottom: 20px;
-    line-height: 1.3;
+  font-size: 4.2rem;
+  font-weight: bold;
+  text-shadow: 
+      0 0 10px #fff,
+      0 0 20px var(--secondary-cyan),
+      0 0 30px var(--secondary-cyan);
+  color: white;
+  margin-bottom: 25px;
+  line-height: 1.4;
 }
 
 .popup-sender {
-    font-size: 1.8rem;
-    color: #00ffd5;
-    text-shadow: 0 0 10px #00ffd5;
-    font-style: italic;
+  font-size: 1.9rem;
+  color: var(--secondary-mint);
+  text-shadow: 0 0 10px var(--secondary-cyan);
+  font-style: italic;
 }
 
 @keyframes glow {
-    from {
-        box-shadow: 
-            0 0 0 5px #00ffd5,
-            0 0 0 10px #0099ff,
-            0 0 0 15px #0055ff,
-            0 0 40px rgba(0, 153, 255, 0.6),
-            inset 0 0 60px rgba(0, 255, 213, 0.2);
-    }
-    to {
-        box-shadow: 
-            0 0 0 8px #00ffd5,
-            0 0 0 16px #0099ff,
-            0 0 0 24px #0055ff,
-            0 0 60px rgba(0, 153, 255, 0.8),
-            inset 0 0 80px rgba(0, 255, 213, 0.4);
-    }
+  from {
+      box-shadow: 
+          0 0 0 8px var(--secondary-cyan),
+          0 0 0 16px var(--primary-light),
+          0 0 50px rgba(72, 159, 181, 0.6),
+          inset 0 0 80px rgba(255, 255, 255, 0.15);
+  }
+  to {
+      box-shadow: 
+          0 0 0 12px var(--secondary-cyan),
+          0 0 0 24px var(--primary-light),
+          0 0 70px rgba(72, 159, 181, 0.8),
+          inset 0 0 100px rgba(255, 255, 255, 0.25);
+  }
 }
 
 @keyframes popupBounce {
-    0% { transform: scale(0.5); opacity: 0; }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); opacity: 1; }
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
 }

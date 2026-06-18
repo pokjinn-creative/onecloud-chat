@@ -1,10 +1,77 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>One Cloud Coffee & Eatery - Admin</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Cloud Coffee & Eatery - Admin</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    :root {
+      --primary-dark: #16697a;
+      --primary-light: #489fb5;
+      --secondary-cyan: #82c0cc;
+      --secondary-cream: #f2ebe2;
+      --secondary-mint: #eff9f6;
+    }
+
+    body {
+      background-color: var(--secondary-cream);
+    }
+
+    .card {
+      border: none;
+      box-shadow: 0 4px 20px rgba(22, 105, 122, 0.15);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-light));
+      color: white;
+      border: none;
+    }
+
+    .btn-primary {
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-light);
+      border-color: var(--primary-light);
+    }
+
+    .btn-danger {
+      background-color: #c82333;
+    }
+
+    .btn-warning {
+      background-color: #e0a800;
+      color: white;
+    }
+
+    .btn-info {
+      background-color: var(--secondary-cyan);
+      border-color: var(--secondary-cyan);
+    }
+
+    .btn-success {
+      background-color: var(--primary-dark);
+      border-color: var(--primary-dark);
+    }
+
+    .btn-success:hover {
+      background-color: var(--primary-light);
+      border-color: var(--primary-light);
+    }
+
+    #messagesList, #usersList, #filteredWordsList {
+      max-height: 350px;
+      overflow-y: auto;
+    }
+
+    .border {
+      border-color: var(--secondary-cyan) !important;
+    }
+  </style>
 </head>
 <body>
     <div class="container-fluid mt-4">

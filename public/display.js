@@ -22,7 +22,12 @@ function loadBigMessages() {
     const bigMessagesRef = ref(database, 'bigMessages');
     onChildAdded(bigMessagesRef, (snapshot) => {
         const data = snapshot.val();
-        showBigPopup(data.message);
+        // Handle both old (string) and new (object) formats
+        if (typeof data === 'string') {
+            showBigPopup({ message: data, sender: 'One Cloud Coffee & Eatery' });
+        } else {
+            showBigPopup(data);
+        }
     });
 }
 

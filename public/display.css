@@ -36,8 +36,6 @@ body {
 .chat-display {
   flex: 1;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
   padding: 30px;
   background-color: var(--secondary-cream);
 }

@@ -10,7 +10,10 @@ html, body {
   height: 100%;
   margin: 0;
   overflow: hidden;
-  background-color: var(--secondary-cream);
+  background-image: url('assets/display_bg.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 body {
@@ -44,9 +47,10 @@ body {
   padding: 20px 25px;
   margin-bottom: 15px;
   border-radius: 15px;
-  background: linear-gradient(135deg, var(--secondary-mint), white);
+  background: rgba(255, 255, 255, 0.9);
   border-left: 6px solid var(--primary-light);
   box-shadow: 0 3px 15px rgba(22, 105, 122, 0.1);
+  backdrop-filter: blur(10px);
 }
 
 .display-message .nickname {

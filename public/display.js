@@ -1,5 +1,5 @@
 import { database } from './firebase-config.js';
-import { ref, onChildAdded, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { ref, onChildAdded, onChildRemoved, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const chatDisplay = document.getElementById('chatDisplay');
 const bigPopup = document.getElementById('bigPopup');

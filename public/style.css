@@ -39,6 +39,7 @@ body {
 #chatContainer {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+  overflow-y: auto;
 }
 #chatContainer::-webkit-scrollbar {
   display: none;  /* Chrome, Safari, Opera */

@@ -32,30 +32,33 @@ function loadBigMessages() {
 }
 
 function addMessageToDisplay(message, messageId) {
-    const div = document.createElement('div');
-    div.className = 'display-message';
-    div.id = `msg-${messageId}`; // Add ID for easy removal
-    const date = new Date(message.timestamp);
-    const timeStr = date.toLocaleTimeString('id-ID');
-    const genderClass = message.gender === 'male' ? 'text-primary' : 'text-danger';
-    const genderIcon = message.gender === 'male' ? '♂️' : '♀️';
-    
-    div.innerHTML = `
-        <div class="d-flex justify-content-between align-items-start">
-            <div>
-                <span class="nickname ${genderClass}">${genderIcon} ${escapeHtml(message.nickname)}</span>
-            </div>
-            <span class="timestamp">${timeStr}</span>
-        </div>
-        <div class="content">${escapeHtml(message.content)}</div>
-    `;
-    
-    chatDisplay.appendChild(div);
-    chatDisplay.scrollTop = chatDisplay.scrollHeight;
-    
-    if (chatDisplay.children.length > 20) {
-        chatDisplay.removeChild(chatDisplay.firstChild);
-    }
+  const div = document.createElement('div');
+  div.className = 'display-message';
+  div.id = `msg-${messageId}`; // Add ID for easy removal
+  const date = new Date(message.timestamp);
+  const timeStr = date.toLocaleTimeString('id-ID');
+  const genderClass = message.gender === 'male' ? 'text-primary' : 'text-danger';
+  const genderIcon = message.gender === 'male' ? '♂️' : '♀️';
+  
+  div.innerHTML = `
+      <div class="d-flex justify-content-between align-items-start">
+          <div>
+              <span class="nickname ${genderClass}">${genderIcon} by ${escapeHtml(message.nickname)}</span>
+          </div>
+          <span class="timestamp">${timeStr}</span>
+      </div>
+      <div class="content">${escapeHtml(message.content)}</div>
+      <div class="message-footer text-muted mt-3" style="font-style: italic; font-size: 0.9rem; color: #666;">
+          sent via One Cloud ChitChat
+      </div>
+  `;
+  
+  chatDisplay.appendChild(div);
+  chatDisplay.scrollTop = chatDisplay.scrollHeight;
+  
+  if (chatDisplay.children.length > 20) {
+      chatDisplay.removeChild(chatDisplay.firstChild);
+  }
 }
 
 function removeMessageFromDisplay(messageId) {
@@ -66,13 +69,13 @@ function removeMessageFromDisplay(messageId) {
 }
 
 function showBigPopup(data) {
-    document.getElementById('popupMessage').textContent = data.message;
-    document.getElementById('popupSender').textContent = `— ${data.sender || 'One Cloud Coffee & Eatery'}`;
-    bigPopup.classList.remove('d-none');
-    
-    setTimeout(() => {
-        bigPopup.classList.add('d-none');
-    }, 8000); // Show for 8 seconds
+  document.getElementById('popupMessage').textContent = data.message;
+  document.getElementById('popupSender').textContent = `— ${data.sender || 'One Cloud ChitChat'}`;
+  bigPopup.classList.remove('d-none');
+  
+  setTimeout(() => {
+      bigPopup.classList.add('d-none');
+  }, 8000); // Show for 8 seconds
 }
 
 function escapeHtml(text) {

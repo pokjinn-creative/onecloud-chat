@@ -101,24 +101,27 @@ function loadMessages() {
 }
 
 function addMessageToDisplay(message, messageId) {
-    const div = document.createElement('div');
-    div.className = 'chat-message';
-    div.id = `msg-${messageId}`; // Add ID for easy removal
-    const date = new Date(message.timestamp);
-    const timeStr = date.toLocaleTimeString('id-ID');
-    const genderClass = message.gender === 'male' ? 'gender-male' : 'gender-female';
-    const genderText = message.gender === 'male' ? '♂️' : '♀️';
-    
-    div.innerHTML = `
-        <div class="message-header">
-            <span class="${genderClass}">${genderText} ${message.nickname}</span>
-            <span>${timeStr}</span>
-        </div>
-        <div class="message-content">${escapeHtml(message.content)}</div>
-    `;
-    
-    chatContainer.appendChild(div);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+  const div = document.createElement('div');
+  div.className = 'chat-message';
+  div.id = `msg-${messageId}`; // Add ID for easy removal
+  const date = new Date(message.timestamp);
+  const timeStr = date.toLocaleTimeString('id-ID');
+  const genderClass = message.gender === 'male' ? 'gender-male' : 'gender-female';
+  const genderText = message.gender === 'male' ? '♂️' : '♀️';
+  
+  div.innerHTML = `
+      <div class="message-header">
+          <span class="${genderClass}">${genderText} by ${message.nickname}</span>
+          <span>${timeStr}</span>
+      </div>
+      <div class="message-content">${escapeHtml(message.content)}</div>
+      <div class="message-footer text-muted small mt-2" style="font-style: italic;">
+          sent via One Cloud ChitChat
+      </div>
+  `;
+  
+  chatContainer.appendChild(div);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
 function removeMessageFromDisplay(messageId) {

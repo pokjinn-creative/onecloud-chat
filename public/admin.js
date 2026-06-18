@@ -105,7 +105,7 @@ addFilterBtn.addEventListener('click', () => {
 
 sendBigMessageBtn.addEventListener('click', () => {
     const message = bigMessageInput.value.trim();
-    const sender = bigMessageSender.value.trim() || 'One Cloud Coffee & Eatery';
+    const sender = bigMessageSender.value.trim() || 'One Cloud ChitChat';
     if (message) {
         push(ref(database, 'bigMessages'), {
             message: message,

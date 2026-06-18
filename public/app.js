@@ -2,7 +2,8 @@ import { database } from './firebase-config.js';
 import { ref, push, onChildAdded, onChildRemoved, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 let currentUser = null;
-let lastMessageTime = 0;
+let lastMessageTime = parseInt(localStorage.getItem('lastMessageTime') || '0');
+let cooldownInterval = null;
 const COOLDOWN_TIME = 30000;
 const TWELVE_HOURS = 12 * 60 * 60 * 1000;
 
@@ -29,6 +30,12 @@ loginForm.addEventListener('submit', (e) => {
         loginPage.classList.add('d-none');
         chatPage.classList.remove('d-none');
         loadMessages();
+        
+        // Check if cooldown is still active
+        const now = Date.now();
+        if (now - lastMessageTime < COOLDOWN_TIME) {
+            showCooldown(lastMessageTime);
+        }
     }
 });
 
@@ -53,7 +60,7 @@ function sendMessage() {
     
     const now = Date.now();
     if (now - lastMessageTime < COOLDOWN_TIME) {
-        showCooldown(now);
+        showCooldown(lastMessageTime);
         return;
     }
     
@@ -69,23 +76,37 @@ function sendMessage() {
         });
         messageInput.value = '';
         lastMessageTime = now;
+        localStorage.setItem('lastMessageTime', lastMessageTime.toString());
+        showCooldown(lastMessageTime);
     }
 }
 
 function showCooldown(startTime) {
-    const remaining = Math.ceil((COOLDOWN_TIME - (Date.now() - startTime)) / 1000);
-    cooldownTimer.classList.remove('d-none');
-    timerSpan.textContent = remaining;
+    // Clear existing interval if any
+    if (cooldownInterval) {
+        clearInterval(cooldownInterval);
+    }
     
-    const interval = setInterval(() => {
-        const left = Math.ceil((COOLDOWN_TIME - (Date.now() - startTime)) / 1000);
-        if (left <= 0) {
-            clearInterval(interval);
+    const updateCooldown = () => {
+        const remaining = Math.ceil((COOLDOWN_TIME - (Date.now() - startTime)) / 1000);
+        if (remaining <= 0) {
+            clearInterval(cooldownInterval);
             cooldownTimer.classList.add('d-none');
-        } else {
-            timerSpan.textContent = left;
+            sendBtn.disabled = false;
+            messageInput.disabled = false;
+            emoticonBtn.disabled = false;
+            return;
         }
-    }, 1000);
+        
+        cooldownTimer.classList.remove('d-none');
+        timerSpan.textContent = remaining;
+        sendBtn.disabled = true;
+        messageInput.disabled = true;
+        emoticonBtn.disabled = true;
+    };
+    
+    updateCooldown();
+    cooldownInterval = setInterval(updateCooldown, 1000);
 }
 
 function loadMessages() {

@@ -5,11 +5,21 @@ const chatDisplay = document.getElementById('chatDisplay');
 const bigPopup = document.getElementById('bigPopup');
 const popupMessage = document.getElementById('popupMessage');
 
+const TWELVE_HOURS = 12 * 60 * 60 * 1000;
+
 function loadMessages() {
     const messagesRef = ref(database, 'messages');
     onChildAdded(messagesRef, (snapshot) => {
         const message = snapshot.val();
         const messageId = snapshot.key;
+        
+        // Auto delete messages older than 12 hours
+        const now = Date.now();
+        if (now - message.timestamp > TWELVE_HOURS) {
+            remove(ref(database, 'messages/' + messageId));
+            return;
+        }
+        
         addMessageToDisplay(message, messageId);
     });
     onChildRemoved(messagesRef, (snapshot) => {

@@ -4,6 +4,7 @@ import { ref, push, onChildAdded, onChildRemoved, onValue } from "https://www.gs
 let currentUser = null;
 let lastMessageTime = 0;
 const COOLDOWN_TIME = 30000;
+const TWELVE_HOURS = 12 * 60 * 60 * 1000;
 
 const loginForm = document.getElementById('loginForm');
 const loginPage = document.getElementById('loginPage');
@@ -92,6 +93,14 @@ function loadMessages() {
     onChildAdded(messagesRef, (snapshot) => {
         const message = snapshot.val();
         const messageId = snapshot.key;
+        
+        // Auto delete messages older than 12 hours
+        const now = Date.now();
+        if (now - message.timestamp > TWELVE_HOURS) {
+            remove(ref(database, 'messages/' + messageId));
+            return;
+        }
+        
         addMessageToDisplay(message, messageId);
     });
     onChildRemoved(messagesRef, (snapshot) => {

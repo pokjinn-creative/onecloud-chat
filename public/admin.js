@@ -9,6 +9,9 @@ const addFilterBtn = document.getElementById('addFilterBtn');
 const bigMessageInput = document.getElementById('bigMessageInput');
 const bigMessageSender = document.getElementById('bigMessageSender');
 const sendBigMessageBtn = document.getElementById('sendBigMessageBtn');
+const wipeChatBtn = document.getElementById('wipeChatBtn');
+
+const TWELVE_HOURS = 12 * 60 * 60 * 1000;
 
 let users = new Map();
 let filteredWords = [];
@@ -20,6 +23,13 @@ function loadMessages() {
         snapshot.forEach((childSnapshot) => {
             const message = childSnapshot.val();
             const messageId = childSnapshot.key;
+            
+            // Auto delete messages older than 12 hours
+            const now = Date.now();
+            if (now - message.timestamp > TWELVE_HOURS) {
+                remove(ref(database, 'messages/' + messageId));
+                return;
+            }
             
             const div = document.createElement('div');
             div.className = 'mb-2 p-2 border rounded';
@@ -52,6 +62,13 @@ function loadMessages() {
         
         renderUsersList();
     });
+}
+
+function wipeAllChat() {
+    if (confirm('Yakin ingin menghapus semua chat?')) {
+        const messagesRef = ref(database, 'messages');
+        set(messagesRef, null);
+    }
 }
 
 function renderUsersList() {
@@ -122,6 +139,8 @@ function escapeHtml(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
+wipeChatBtn.addEventListener('click', wipeAllChat);
 
 loadMessages();
 loadFilteredWords();

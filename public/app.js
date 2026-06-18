@@ -3,7 +3,9 @@ import { ref, push, onChildAdded, onChildRemoved, onValue, get, remove } from "h
 
 let currentUser = null;
 let lastMessageTime = parseInt(localStorage.getItem('lastMessageTime') || '0');
+let lastLoginTime = parseInt(localStorage.getItem('lastLoginTime') || '0');
 let cooldownInterval = null;
+let loginCooldownInterval = null;
 const COOLDOWN_TIME = 30000;
 const TWELVE_HOURS = 12 * 60 * 60 * 1000;
 
@@ -18,25 +20,62 @@ const emoticonBtn = document.getElementById('emoticonBtn');
 const emoticonPicker = document.getElementById('emoticonPicker');
 const cooldownTimer = document.getElementById('cooldownTimer');
 const timerSpan = document.getElementById('timer');
+const logoutBtn = document.getElementById('logoutBtn');
+const loginCooldownTimer = document.createElement('div');
+loginCooldownTimer.className = 'mt-3 text-center text-muted';
+
+// Insert login cooldown timer after login form
+loginForm.appendChild(loginCooldownTimer);
+
+// Check login cooldown on page load
+checkLoginCooldown();
 
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
+    const now = Date.now();
+    
+    // Check login cooldown
+    if (now - lastLoginTime < COOLDOWN_TIME) {
+        return;
+    }
+    
     const nickname = document.getElementById('nickname').value.trim();
     const gender = document.querySelector('input[name="gender"]:checked').value;
     
     if (nickname) {
         currentUser = { nickname, gender, id: Date.now().toString() };
+        lastLoginTime = now;
+        localStorage.setItem('lastLoginTime', lastLoginTime.toString());
+        
         userInfo.textContent = `Halo, ${nickname} (${gender === 'male' ? 'Laki-laki' : 'Perempuan'})`;
         loginPage.classList.add('d-none');
         chatPage.classList.remove('d-none');
         loadMessages();
         
-        // Check if cooldown is still active
-        const now = Date.now();
+        // Check if message cooldown is still active
         if (now - lastMessageTime < COOLDOWN_TIME) {
             showCooldown(lastMessageTime);
         }
     }
+});
+
+logoutBtn.addEventListener('click', () => {
+    currentUser = null;
+    chatPage.classList.add('d-none');
+    loginPage.classList.remove('d-none');
+    chatContainer.innerHTML = '';
+    messageInput.value = '';
+    emoticonPicker.classList.add('d-none');
+    
+    if (cooldownInterval) {
+        clearInterval(cooldownInterval);
+    }
+    cooldownTimer.classList.add('d-none');
+    sendBtn.disabled = false;
+    messageInput.disabled = false;
+    emoticonBtn.disabled = false;
+    
+    checkLoginCooldown();
 });
 
 sendBtn.addEventListener('click', sendMessage);
@@ -48,12 +87,52 @@ emoticonBtn.addEventListener('click', () => {
     emoticonPicker.classList.toggle('d-none');
 });
 
-document.querySelectorAll('.emoticon').forEach(emoticon => {
-    emoticon.addEventListener('click', () => {
-        messageInput.value += emoticon.textContent;
-        emoticonPicker.classList.add('d-none');
+// Re-attach emoticon click listeners after any DOM changes
+function attachEmoticonListeners() {
+    document.querySelectorAll('.emoticon').forEach(emoticon => {
+        emoticon.addEventListener('click', () => {
+            messageInput.value += emoticon.textContent;
+            emoticonPicker.classList.add('d-none');
+        });
     });
-});
+}
+
+attachEmoticonListeners();
+
+function checkLoginCooldown() {
+    const now = Date.now();
+    const remaining = Math.ceil((COOLDOWN_TIME - (now - lastLoginTime)) / 1000);
+    
+    if (remaining > 0) {
+        loginCooldownTimer.classList.remove('d-none');
+        loginCooldownTimer.textContent = `Silakan tunggu ${remaining} detik untuk login kembali`;
+        document.getElementById('nickname').disabled = true;
+        document.querySelector('input[name="gender"]').disabled = true;
+        document.querySelectorAll('input[name="gender"]').forEach(radio => radio.disabled = true);
+        loginForm.querySelector('button').disabled = true;
+        
+        loginCooldownInterval = setInterval(() => {
+            const remainingNow = Math.ceil((COOLDOWN_TIME - (Date.now() - lastLoginTime)) / 1000);
+            if (remainingNow <= 0) {
+                clearLoginCooldown();
+            } else {
+                loginCooldownTimer.textContent = `Silakan tunggu ${remainingNow} detik untuk login kembali`;
+            }
+        }, 1000);
+    } else {
+        clearLoginCooldown();
+    }
+}
+
+function clearLoginCooldown() {
+    loginCooldownTimer.classList.add('d-none');
+    document.getElementById('nickname').disabled = false;
+    document.querySelectorAll('input[name="gender"]').forEach(radio => radio.disabled = false);
+    loginForm.querySelector('button').disabled = false;
+    if (loginCooldownInterval) {
+        clearInterval(loginCooldownInterval);
+    }
+}
 
 function sendMessage() {
     if (!currentUser) return;

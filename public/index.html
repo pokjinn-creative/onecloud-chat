@@ -62,7 +62,7 @@
     </div>
 
     <div class="d-none flex-column h-100" id="chatPage">
-        <div class="card shadow h-100 border-0 rounded-0">
+        <div class="card shadow h-100 border-0 rounded-0 d-flex flex-column">
             <div class="card-header text-white d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #16697a, #489fb5);">
                 <div class="d-flex align-items-center gap-3">
                     <img src="assets/logo_OC.png" alt="Logo" style="max-width: 60px;">
@@ -71,8 +71,26 @@
                         <small id="userInfo"></small>
                     </div>
                 </div>
+                <button class="btn btn-light btn-sm" id="logoutBtn">Keluar</button>
             </div>
-            <div class="card-body" id="chatContainer">
+            <div class="card-body flex-grow-1 overflow-hidden p-0">
+                <div class="h-100 overflow-y-auto p-3" id="chatContainer"></div>
+                <div class="emoticon-picker card-footer border-top-0 p-2 d-none" id="emoticonPicker">
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="emoticon fs-4 cursor-pointer">😀</span>
+                        <span class="emoticon fs-4 cursor-pointer">😂</span>
+                        <span class="emoticon fs-4 cursor-pointer">❤️</span>
+                        <span class="emoticon fs-4 cursor-pointer">👍</span>
+                        <span class="emoticon fs-4 cursor-pointer">🎉</span>
+                        <span class="emoticon fs-4 cursor-pointer">🔥</span>
+                        <span class="emoticon fs-4 cursor-pointer">😎</span>
+                        <span class="emoticon fs-4 cursor-pointer">😍</span>
+                        <span class="emoticon fs-4 cursor-pointer">😢</span>
+                        <span class="emoticon fs-4 cursor-pointer">😮</span>
+                        <span class="emoticon fs-4 cursor-pointer">🙏</span>
+                        <span class="emoticon fs-4 cursor-pointer">✌️</span>
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
                 <div class="d-flex gap-2">
@@ -84,26 +102,6 @@
                 </div>
                 <div id="cooldownTimer" class="mt-2 text-center text-muted d-none">
                     Silakan tunggu <span id="timer">30</span> detik untuk mengirim pesan lagi
-                </div>
-            </div>
-        </div>
-        <div class="emoticon-picker mt-2 d-none" id="emoticonPicker">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex flex-wrap gap-2">
-                        <span class="emoticon">😀</span>
-                        <span class="emoticon">😂</span>
-                        <span class="emoticon">❤️</span>
-                        <span class="emoticon">👍</span>
-                        <span class="emoticon">🎉</span>
-                        <span class="emoticon">🔥</span>
-                        <span class="emoticon">😎</span>
-                        <span class="emoticon">😍</span>
-                        <span class="emoticon">😢</span>
-                        <span class="emoticon">😮</span>
-                        <span class="emoticon">🙏</span>
-                        <span class="emoticon">✌️</span>
-                    </div>
                 </div>
             </div>
         </div>

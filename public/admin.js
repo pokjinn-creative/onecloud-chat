@@ -1,6 +1,15 @@
 import { database } from './firebase-config.js';
 import { ref, push, remove, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+const ADMIN_USERNAME = 'admin';
+const ADMIN_PASSWORD = 'oneadmin';
+
+const loginPage = document.getElementById('loginPage');
+const adminDashboard = document.getElementById('adminDashboard');
+const loginForm = document.getElementById('loginForm');
+const loginError = document.getElementById('loginError');
+const logoutBtn = document.getElementById('logoutBtn');
+
 const messagesList = document.getElementById('messagesList');
 const usersList = document.getElementById('usersList');
 const filteredWordsList = document.getElementById('filteredWordsList');
@@ -15,6 +24,49 @@ const TWELVE_HOURS = 12 * 60 * 60 * 1000;
 
 let users = new Map();
 let filteredWords = [];
+
+// Check if admin is already logged in
+function checkAuth() {
+    const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+    if (isLoggedIn === 'true') {
+        showDashboard();
+    } else {
+        showLogin();
+    }
+}
+
+function showLogin() {
+    loginPage.classList.remove('d-none');
+    adminDashboard.classList.add('d-none');
+}
+
+function showDashboard() {
+    loginPage.classList.add('d-none');
+    adminDashboard.classList.remove('d-none');
+    loadMessages();
+    loadFilteredWords();
+}
+
+loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        loginError.classList.add('d-none');
+        showDashboard();
+    } else {
+        loginError.classList.remove('d-none');
+    }
+});
+
+logoutBtn.addEventListener('click', () => {
+    sessionStorage.removeItem('adminLoggedIn');
+    showLogin();
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+});
 
 function loadMessages() {
     const messagesRef = ref(database, 'messages');
@@ -142,5 +194,5 @@ function escapeHtml(text) {
 
 wipeChatBtn.addEventListener('click', wipeAllChat);
 
-loadMessages();
-loadFilteredWords();
+// Initialize
+checkAuth();

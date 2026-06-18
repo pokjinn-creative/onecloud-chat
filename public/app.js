@@ -1,5 +1,5 @@
 import { database } from './firebase-config.js';
-import { ref, push, onChildAdded, onChildRemoved, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { ref, push, onChildAdded, onChildRemoved, onValue, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 let currentUser = null;
 let lastMessageTime = parseInt(localStorage.getItem('lastMessageTime') || '0');

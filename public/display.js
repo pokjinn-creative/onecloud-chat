@@ -1,27 +1,50 @@
 import { database } from './firebase-config.js';
-import { ref, onChildAdded, onChildRemoved, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { ref, onChildAdded, onChildRemoved, onValue, get, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
 const chatDisplay = document.getElementById('chatDisplay');
 const bigPopup = document.getElementById('bigPopup');
 const popupMessage = document.getElementById('popupMessage');
 
 const TWELVE_HOURS = 12 * 60 * 60 * 1000;
+let initialLoadComplete = false;
+let initialMessageCount = 0;
 
 function loadMessages() {
     const messagesRef = ref(database, 'messages');
-    onChildAdded(messagesRef, (snapshot) => {
-        const message = snapshot.val();
-        const messageId = snapshot.key;
+    
+    // First get all existing messages to know the count for animation delays
+    get(messagesRef).then((snapshot) => {
+        const count = snapshot.size;
+        initialMessageCount = count;
         
-        // Auto delete messages older than 12 hours
-        const now = Date.now();
-        if (now - message.timestamp > TWELVE_HOURS) {
-            remove(ref(database, 'messages/' + messageId));
-            return;
-        }
-        
-        addMessageToDisplay(message, messageId);
+        // Now listen for child added
+        onChildAdded(messagesRef, (snapshot) => {
+            const message = snapshot.val();
+            const messageId = snapshot.key;
+            
+            // Auto delete messages older than 12 hours
+            const now = Date.now();
+            if (now - message.timestamp > TWELVE_HOURS) {
+                remove(ref(database, 'messages/' + messageId));
+                return;
+            }
+            
+            let delay = 0;
+            if (!initialLoadComplete) {
+                // Apply delay for initial messages
+                delay = initialMessageCount * 50; // 50ms per message
+                initialMessageCount--;
+                if (initialMessageCount <= 0) {
+                    initialLoadComplete = true;
+                }
+            }
+            
+            setTimeout(() => {
+                addMessageToDisplay(message, messageId);
+            }, delay);
+        });
     });
+    
     onChildRemoved(messagesRef, (snapshot) => {
         const messageId = snapshot.key;
         removeMessageFromDisplay(messageId);

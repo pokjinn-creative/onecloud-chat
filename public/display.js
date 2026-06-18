@@ -43,22 +43,24 @@ function loadBigMessages() {
 
 function addMessageToDisplay(message, messageId) {
   const div = document.createElement('div');
-  div.className = 'display-message';
+  div.className = `display-message gender-${message.gender}`;
   div.id = `msg-${messageId}`; // Add ID for easy removal
   const date = new Date(message.timestamp);
   const timeStr = date.toLocaleTimeString('id-ID');
-  const genderClass = message.gender === 'male' ? 'text-primary' : 'text-danger';
   const genderIcon = message.gender === 'male' ? '♂️' : '♀️';
   
   div.innerHTML = `
       <div class="d-flex justify-content-between align-items-start">
           <div>
-              <span class="nickname ${genderClass}">${genderIcon} by ${escapeHtml(message.nickname)}</span>
+              <span class="nickname">
+                  <span class="gender-icon">${genderIcon}</span>
+                  by <span class="username">${escapeHtml(message.nickname)}</span>
+              </span>
           </div>
           <span class="timestamp">${timeStr}</span>
       </div>
       <div class="content">${escapeHtml(message.content)}</div>
-      <div class="message-footer text-muted mt-3" style="font-style: italic; font-size: 0.9rem; color: #666;">
+      <div class="message-footer mt-3" style="font-style: italic; font-size: 0.9rem; color: rgba(255,255,255,0.8);">
           sent via One Cloud ChitChat
       </div>
   `;

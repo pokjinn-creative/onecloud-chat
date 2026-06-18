@@ -132,16 +132,18 @@ function loadMessages() {
 
 function addMessageToDisplay(message, messageId) {
   const div = document.createElement('div');
-  div.className = 'chat-message';
+  div.className = `chat-message gender-${message.gender}`;
   div.id = `msg-${messageId}`; // Add ID for easy removal
   const date = new Date(message.timestamp);
   const timeStr = date.toLocaleTimeString('id-ID');
-  const genderClass = message.gender === 'male' ? 'gender-male' : 'gender-female';
   const genderText = message.gender === 'male' ? '♂️' : '♀️';
   
   div.innerHTML = `
       <div class="message-header">
-          <span class="${genderClass}">${genderText} by ${message.nickname}</span>
+          <span>
+              <span class="gender-icon">${genderText}</span>
+              by <span class="username">${message.nickname}</span>
+          </span>
           <span>${timeStr}</span>
       </div>
       <div class="message-content">${escapeHtml(message.content)}</div>

@@ -39,9 +39,34 @@ body {
   margin-bottom: 10px;
   padding: 15px;
   border-radius: 12px;
-  background: rgba(239, 249, 246, 0.7);
-  border-left: 4px solid var(--secondary-cyan);
   backdrop-filter: blur(5px);
+}
+
+.chat-message.gender-male {
+  background: rgba(50, 160, 208, 0.6);
+  border-left: 4px solid #32a0d0;
+}
+
+.chat-message.gender-female {
+  background: rgba(223, 80, 255, 0.6);
+  border-left: 4px solid #df50ff;
+}
+
+.chat-message.gender-male .gender-male,
+.chat-message.gender-female .gender-female {
+  font-weight: bold;
+}
+
+.chat-message.gender-male .username {
+  color: #00121a;
+}
+
+.chat-message.gender-female .username {
+  color: #350423;
+}
+
+.chat-message .message-content {
+  color: white;
 }
 
 .message-header {
